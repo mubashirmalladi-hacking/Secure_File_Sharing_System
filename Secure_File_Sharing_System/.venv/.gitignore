@@ -1,0 +1,22 @@
+
+# Created by venv
+*
+
+# Allow the Git ignore file itself
+!.gitignore
+
+# Allow project source files and folders
+!app.py
+!requirements.txt
+!templates/
+!templates/**
+!static/
+!static/**
+
+# Keep secrets and generated files private
+.env
+files.db
+instance/
+uploads/
+__pycache__/
+*.pyc

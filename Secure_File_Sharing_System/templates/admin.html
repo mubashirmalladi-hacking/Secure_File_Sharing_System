@@ -1,0 +1,151 @@
+
+{% extends "base.html" %}
+{% block title %}Admin Panel | SecureShare{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <span class="badge text-bg-primary mb-2">ADMINISTRATION</span>
+            <h2 class="mb-1">Security Overview</h2>
+            <p class="mb-0">Manage accounts and monitor stored file records.</p>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="small mb-2">Registered users</p>
+                            <h2>{{ users|length }}</h2>
+                        </div>
+                        <span class="fs-2">👥</span>
+                    </div>
+                    <p class="small mb-0">Total application accounts</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="small mb-2">Stored files</p>
+                            <h2>{{ files|length }}</h2>
+                        </div>
+                        <span class="fs-2">📁</span>
+                    </div>
+                    <p class="small mb-0">Total file records</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="small mb-2">Administrators</p>
+                            <h2>{{ users|selectattr('role', 'equalto', 'admin')|list|length }}</h2>
+                        </div>
+                        <span class="fs-2">🛡️</span>
+                    </div>
+                    <p class="small mb-0">Accounts with admin privileges</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User management -->
+    <div class="card mb-4">
+        <div class="card-body p-4">
+            <h4 class="mb-1">User Management</h4>
+            <p class="small mb-4">Review registered accounts and assign administrator privileges.</p>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Permissions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for account in users %}
+                        <tr>
+                            <td>#{{ account.id }}</td>
+                            <td class="fw-semibold">{{ account.username }}</td>
+                            <td>
+                                {% if account.role == 'admin' %}
+                                    <span class="badge text-bg-primary">Administrator</span>
+                                {% else %}
+                                    <span class="badge text-bg-secondary">Standard User</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if account.role != 'admin' and account.id != session.get('user_id') %}
+                                <form method="POST"
+                                      action="{{ url_for('promote_user', user_id=account.id) }}"
+                                      onsubmit="return confirm('Promote this user to administrator?');">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button class="btn btn-warning btn-sm">Promote to Admin</button>
+                                </form>
+                                {% else %}
+                                    <span class="text-secondary small">No action</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="4" class="text-center">No users found.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- File overview -->
+    <div class="card">
+        <div class="card-body p-4">
+            <h4 class="mb-1">File Overview</h4>
+            <p class="small mb-4">Recent uploaded file metadata.</p>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Owner ID</th>
+                            <th>Uploaded</th>
+                            <th>Protection</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>📄 {{ file.original_name }}</td>
+                            <td>#{{ file.owner_id }}</td>
+                            <td>{{ file.uploaded_at.strftime('%d %b %Y, %H:%M') if file.uploaded_at else '—' }}</td>
+                            <td><span class="badge text-bg-success">Encrypted at rest</span></td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="4" class="text-center">No files uploaded yet.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

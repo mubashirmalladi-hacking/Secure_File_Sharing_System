@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+{% block title %}Temporary Link | SecureShare{% endblock %}
+{% block content %}
+<div class="auth-card">
+    <h2>Temporary Download Link 🔗</h2>
+    <p class="text-secondary">This link is valid until {{ expires_at.strftime('%Y-%m-%d %H:%M UTC') }}.</p>
+    <label class="form-label">Your link</label>
+    <input class="form-control mb-3" id="shareUrl" value="{{ share_url }}" readonly>
+    <button class="btn btn-primary w-100" onclick="copyLink()">Copy Link</button>
+    <p class="small text-danger mt-3">This link can be used once. Anyone with the link can download the file before it expires, so share it privately.</p>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary w-100 mt-2">Back to Dashboard</a>
+</div>
+<script>
+function copyLink() {
+    const field = document.getElementById('shareUrl');
+    field.select();
+    field.setSelectionRange(0, 99999);
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(field.value)
+            .then(() => alert('Link copied!'))
+            .catch(() => alert('Please copy the link manually.'));
+    } else {
+        alert('Please copy the selected link manually.');
+    }
+}
+</script>
+{% endblock %}

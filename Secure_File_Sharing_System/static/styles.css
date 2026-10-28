@@ -1,0 +1,193 @@
+
+/* SecureShare — Modern UI */
+
+:root {
+    --bg: #0b1120;
+    --panel: #151f33;
+    --border: #26344d;
+    --primary: #3b82f6;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* Navigation */
+.navbar {
+    background: rgba(15, 23, 42, 0.96) !important;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+}
+
+.navbar-brand:hover {
+    color: #93c5fd !important;
+}
+
+/* Main headings */
+h1, h2, h3, h4, h5 {
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+p, .text-secondary {
+    color: var(--muted) !important;
+}
+
+/* Cards */
+.card {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.card:hover {
+    border-color: #3b82f6;
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    background: #0b1120;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 13px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: #0b1120;
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+.form-control::placeholder {
+    color: #64748b;
+}
+
+.form-control[type="file"]::file-selector-button {
+    background: #253652;
+    color: white;
+    border: none;
+    margin: -11px 12px -11px -13px;
+    padding: 12px;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 10px;
+    padding: 9px 15px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 18px rgba(59, 130, 246, 0.25);
+}
+
+/* Tables */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--border);
+    --bs-table-hover-bg: #1d2a40;
+    --bs-table-hover-color: white;
+    margin-bottom: 0;
+}
+
+.table thead th {
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    border-bottom-width: 1px;
+    padding: 15px 12px;
+}
+
+.table td {
+    padding: 16px 12px;
+    vertical-align: middle;
+}
+
+/* Login and registration */
+.auth-card {
+    max-width: 460px;
+    margin: 55px auto;
+    padding: 32px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.auth-card h2 {
+    margin-bottom: 12px;
+}
+
+.auth-card a {
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.auth-card a:hover {
+    text-decoration: underline;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 12px;
+    border: none;
+}
+
+/* Footer */
+footer {
+    color: #64748b !important;
+    font-size: 13px;
+}
+
+/* Mobile screens */
+@media (max-width: 768px) {
+    .auth-card {
+        margin: 25px auto;
+        padding: 22px;
+    }
+
+    .card-body {
+        padding: 18px;
+    }
+
+    .table {
+        font-size: 13px;
+    }
+
+    .navbar .container {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
